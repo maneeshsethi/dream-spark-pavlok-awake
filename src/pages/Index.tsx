@@ -2,6 +2,7 @@
 import React from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import DeviceAndAppSection from "@/components/DeviceAndAppSection";
 import AboutSection from "@/components/AboutSection";
 import FeaturesAndHowItWorksSection from "@/components/FeaturesAndHowItWorksSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
@@ -15,6 +16,7 @@ const Index = () => {
     <div className="min-h-screen bg-pavlok-dark text-white">
       <Navbar />
       <HeroSection />
+      <DeviceAndAppSection />
       <AboutSection />
       <FeaturesAndHowItWorksSection />
       <TestimonialsSection />
