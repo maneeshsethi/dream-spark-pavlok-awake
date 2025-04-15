@@ -48,24 +48,6 @@ const AboutSection: React.FC = () => {
             </p>
           </div>
         </div>
-        
-        <div className="mt-16 flex justify-center">
-          <div className="relative overflow-hidden rounded-lg shadow-xl max-w-2xl">
-            <div className="absolute inset-0 bg-gradient-to-r from-pavlok-purple to-pavlok-blue opacity-30"></div>
-            <img 
-              src="https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-              alt="Lucid Dreaming Concept" 
-              className="w-full h-auto rounded-lg relative z-10 mix-blend-overlay opacity-90"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-pavlok-dark to-transparent z-20"></div>
-            <div className="absolute bottom-0 left-0 right-0 p-6 z-30">
-              <p className="text-white text-lg md:text-xl font-medium">
-                "Lucid dreaming delivers the ultimate virtual reality experience - one where you are fully immersed, 
-                your physical body is at rest, and the content is provided by the most creative part of your mind."
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

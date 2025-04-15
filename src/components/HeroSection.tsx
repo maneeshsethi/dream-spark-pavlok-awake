@@ -1,9 +1,24 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Moon, Star } from 'lucide-react';
+import { toast } from 'sonner';
 
 const HeroSection: React.FC = () => {
+  const [email, setEmail] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) {
+      // Here you would typically send this to your backend
+      toast.success("Thanks for signing up! Check your email for exclusive lucid dreaming tips and a special discount.");
+      setEmail('');
+    } else {
+      toast.error("Please enter a valid email address");
+    }
+  };
+
   return (
     <section id="hero" className="relative min-h-screen flex items-center bg-pavlok-dark overflow-hidden">
       {/* Background elements */}
@@ -39,22 +54,26 @@ const HeroSection: React.FC = () => {
             Experience your dreams like never before with our unique wearable technology.
             Take control of your dream world tonight.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button 
-              size="lg" 
-              className="text-lg py-6 px-8 bg-pavlok-purple hover:bg-pavlok-blue transition-all duration-300 shadow-lg hover:shadow-xl"
-              onClick={() => window.location.href = '#cta'}
-            >
-              Start Your Journey
-            </Button>
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="text-lg py-6 px-8 text-white border-white hover:bg-white/10 transition-all duration-300"
-              onClick={() => window.location.href = '#how-it-works'}
-            >
-              Learn More
-            </Button>
+          
+          <div className="max-w-md mx-auto">
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+              <Input
+                type="email"
+                placeholder="Enter your email"
+                className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Button 
+                type="submit"
+                className="bg-pavlok-purple hover:bg-pavlok-blue transition-all duration-300 whitespace-nowrap"
+              >
+                Get Lucid Dreams Guide
+              </Button>
+            </form>
+            <p className="text-gray-400 text-sm mt-3">
+              Sign up to receive exclusive lucid dreaming tips and a special discount on your Pavlok device.
+            </p>
           </div>
           
           <div className="mt-12 flex justify-center">

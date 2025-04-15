@@ -68,21 +68,6 @@ const TestimonialsSection: React.FC = () => {
             </div>
           ))}
         </div>
-        
-        <div className="mt-16 text-center">
-          <div className="dream-card py-8 px-6 max-w-4xl mx-auto">
-            <div className="flex items-center justify-center mb-6">
-              <div className="w-16 h-16 bg-gradient-to-r from-pavlok-purple to-pavlok-blue rounded-full flex items-center justify-center">
-                <span className="text-3xl font-bold text-white">98%</span>
-              </div>
-            </div>
-            <h3 className="text-xl font-bold mb-3">Dream Satisfaction Rate</h3>
-            <p className="text-gray-300">
-              98% of Pavlok users report having more vivid and controllable dream experiences 
-              within the first month of use.
-            </p>
-          </div>
-        </div>
       </div>
     </section>
   );

@@ -20,7 +20,7 @@ const CTASection: React.FC = () => {
               Start your journey today with our 30-day satisfaction guarantee.
             </p>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12 mb-12">
+            <div className="max-w-lg mx-auto mt-12 mb-12">
               <div className="dream-card p-6 flex flex-col h-full border border-white/5 hover:border-pavlok-purple/30 transition-colors">
                 <h3 className="text-xl font-bold mb-2">Pavlok Dream</h3>
                 <p className="text-3xl font-bold mb-6">$149.99</p>
@@ -41,46 +41,19 @@ const CTASection: React.FC = () => {
                     <CheckCircle className="h-5 w-5 text-pavlok-purple shrink-0 mt-0.5" />
                     <span className="text-gray-300">30-day money-back guarantee</span>
                   </div>
-                </div>
-                <Button 
-                  className="mt-8 py-6 bg-pavlok-purple hover:bg-pavlok-purple/80"
-                >
-                  Get Started
-                </Button>
-              </div>
-              
-              <div className="dream-card p-6 flex flex-col h-full border-2 border-pavlok-purple/50 relative">
-                <div className="absolute top-0 right-0 transform translate-y-[-50%] bg-pavlok-purple px-4 py-1 rounded-full text-sm font-bold">
-                  POPULAR CHOICE
-                </div>
-                <h3 className="text-xl font-bold mb-2">Pavlok Dream Pro</h3>
-                <p className="text-3xl font-bold mb-6">$199.99</p>
-                <div className="space-y-3 text-left flex-grow">
                   <div className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-pavlok-blue shrink-0 mt-0.5" />
-                    <span className="text-gray-300">Everything in Pavlok Dream</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-pavlok-blue shrink-0 mt-0.5" />
-                    <span className="text-gray-300">Advanced sleep cycle detection</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-pavlok-blue shrink-0 mt-0.5" />
+                    <CheckCircle className="h-5 w-5 text-pavlok-purple shrink-0 mt-0.5" />
                     <span className="text-gray-300">Premium lucid dreaming masterclass</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-pavlok-blue shrink-0 mt-0.5" />
+                    <CheckCircle className="h-5 w-5 text-pavlok-purple shrink-0 mt-0.5" />
                     <span className="text-gray-300">1-year access to Dream Community</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-pavlok-blue shrink-0 mt-0.5" />
-                    <span className="text-gray-300">45-day money-back guarantee</span>
                   </div>
                 </div>
                 <Button 
                   className="mt-8 py-6 bg-gradient-to-r from-pavlok-purple to-pavlok-blue hover:opacity-90"
                 >
-                  Best Value - Buy Now
+                  Get Started
                 </Button>
               </div>
             </div>
