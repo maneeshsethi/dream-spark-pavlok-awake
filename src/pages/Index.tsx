@@ -1,5 +1,6 @@
 
 import React from "react";
+import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import DeviceAndAppSection from "@/components/DeviceAndAppSection";
@@ -23,6 +24,13 @@ const Index = () => {
       <CTASection />
       <ScienceSection />
       <FAQSection />
+      
+      <div className="section-container text-center py-8">
+        <Link to="/medical-professionals" className="inline-block text-pavlok-purple hover:text-pavlok-blue transition-colors">
+          <span className="animated-border">Are you a medical professional? Check out Shock Clock Max →</span>
+        </Link>
+      </div>
+      
       <Footer />
     </div>
   );
