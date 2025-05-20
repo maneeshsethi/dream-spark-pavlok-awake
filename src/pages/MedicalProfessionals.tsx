@@ -11,8 +11,10 @@ import { toast } from 'sonner';
 const MedicalProfessionals = () => {
   const [email, setEmail] = useState('');
   const animatedElementsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const deviceAnimatedElementsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const painPointsAnimatedElementsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Animation on scroll effect
+  // Animation on scroll effect for all animated elements
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -23,12 +25,30 @@ const MedicalProfessionals = () => {
       });
     }, { threshold: 0.1 });
 
+    // Observe main feature elements
     animatedElementsRef.current.forEach(el => {
+      if (el) observer.observe(el);
+    });
+    
+    // Observe device section elements
+    deviceAnimatedElementsRef.current.forEach(el => {
+      if (el) observer.observe(el);
+    });
+    
+    // Observe pain points section elements
+    painPointsAnimatedElementsRef.current.forEach(el => {
       if (el) observer.observe(el);
     });
 
     return () => {
+      // Clean up all observers
       animatedElementsRef.current.forEach(el => {
+        if (el) observer.unobserve(el);
+      });
+      deviceAnimatedElementsRef.current.forEach(el => {
+        if (el) observer.unobserve(el);
+      });
+      painPointsAnimatedElementsRef.current.forEach(el => {
         if (el) observer.unobserve(el);
       });
     };
@@ -228,7 +248,7 @@ const MedicalProfessionals = () => {
                 <CardContent className="p-8 text-center">
                   <div 
                     className="rounded-full bg-pavlok-dark/50 w-16 h-16 flex items-center justify-center mx-auto mb-6"
-                    ref={el => animatedElementsRef.current[index] = el}
+                    ref={el => painPointsAnimatedElementsRef.current[index] = el}
                   >
                     {point.icon}
                   </div>
@@ -278,7 +298,10 @@ const MedicalProfessionals = () => {
                 <Card className="dream-card border-none">
                   <CardContent className="p-5">
                     <div className="flex items-center gap-3">
-                      <div className="rounded-full bg-pavlok-purple/20 w-10 h-10 flex items-center justify-center">
+                      <div 
+                        className="rounded-full bg-pavlok-purple/20 w-10 h-10 flex items-center justify-center"
+                        ref={el => deviceAnimatedElementsRef.current[0] = el}
+                      >
                         <Zap className="h-5 w-5 text-pavlok-purple" />
                       </div>
                       <div>
@@ -292,7 +315,10 @@ const MedicalProfessionals = () => {
                 <Card className="dream-card border-none">
                   <CardContent className="p-5">
                     <div className="flex items-center gap-3">
-                      <div className="rounded-full bg-pavlok-blue/20 w-10 h-10 flex items-center justify-center">
+                      <div 
+                        className="rounded-full bg-pavlok-blue/20 w-10 h-10 flex items-center justify-center"
+                        ref={el => deviceAnimatedElementsRef.current[1] = el}
+                      >
                         <Bell className="h-5 w-5 text-pavlok-blue" />
                       </div>
                       <div>
@@ -328,7 +354,10 @@ const MedicalProfessionals = () => {
                 <Card className="dream-card border-none">
                   <CardContent className="p-5">
                     <div className="flex items-center gap-3">
-                      <div className="rounded-full bg-pavlok-purple/20 w-10 h-10 flex items-center justify-center">
+                      <div 
+                        className="rounded-full bg-pavlok-purple/20 w-10 h-10 flex items-center justify-center"
+                        ref={el => deviceAnimatedElementsRef.current[2] = el}
+                      >
                         <Smartphone className="h-5 w-5 text-pavlok-purple" />
                       </div>
                       <div>
@@ -342,7 +371,10 @@ const MedicalProfessionals = () => {
                 <Card className="dream-card border-none">
                   <CardContent className="p-5">
                     <div className="flex items-center gap-3">
-                      <div className="rounded-full bg-pavlok-blue/20 w-10 h-10 flex items-center justify-center">
+                      <div 
+                        className="rounded-full bg-pavlok-blue/20 w-10 h-10 flex items-center justify-center"
+                        ref={el => deviceAnimatedElementsRef.current[3] = el}
+                      >
                         <Clock className="h-5 w-5 text-pavlok-blue" />
                       </div>
                       <div>
@@ -387,7 +419,7 @@ const MedicalProfessionals = () => {
                     <CardContent className="p-6 flex items-start gap-6">
                       <div 
                         className="flex-shrink-0 rounded-full bg-pavlok-dark/50 w-16 h-16 flex items-center justify-center"
-                        ref={el => animatedElementsRef.current[index + 3] = el}
+                        ref={el => animatedElementsRef.current[index] = el}
                       >
                         {feature.icon}
                       </div>
@@ -453,13 +485,13 @@ const MedicalProfessionals = () => {
                     </div>
                   </div>
                   
-                  {/* Content - now with proper spacing and alignment */}
+                  {/* Content - with increased padding for left column */}
                   <div className={`grid grid-cols-1 md:grid-cols-9 gap-4 ${
                     index % 2 === 0 ? 'md:text-right' : 'md:text-left'
                   }`}>
-                    {/* Step title column */}
+                    {/* Step title column with increased padding */}
                     <div className={`pl-16 md:pl-0 md:col-span-4 ${
-                      index % 2 === 0 ? 'md:order-1' : 'md:order-5'
+                      index % 2 === 0 ? 'md:order-1 md:pr-[175px]' : 'md:order-5'
                     }`}>
                       <h3 className="text-xl font-semibold mb-3 text-pavlok-purple">{step.title}</h3>
                       <p className="text-gray-300">{step.description}</p>
@@ -470,7 +502,7 @@ const MedicalProfessionals = () => {
                     
                     {/* Description column - now empty as we combined the content */}
                     <div className={`hidden md:block md:col-span-4 ${
-                      index % 2 === 0 ? 'md:order-3' : 'md:order-1'
+                      index % 2 === 0 ? 'md:order-3' : 'md:order-1 md:pr-[175px]'
                     }`}>
                     </div>
                   </div>
@@ -501,7 +533,7 @@ const MedicalProfessionals = () => {
                     ))}
                   </div>
                   <p className="text-gray-300 italic mb-6">"{item.quote}"</p>
-                  <p className="font-semibold">{item.author}</p>
+                  <p className="font-semibold text-white">{item.author}</p>
                 </CardContent>
               </Card>
             ))}
