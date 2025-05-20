@@ -96,6 +96,11 @@ export default {
 				'pulse-soft': {
 					'0%, 100%': { opacity: 1 },
 					'50%': { opacity: 0.7 },
+				},
+				'bounce-once': {
+					'0%, 20%, 50%, 80%, 100%': { transform: 'translateY(0)' },
+					'40%': { transform: 'translateY(-20px)' },
+					'60%': { transform: 'translateY(-10px)' },
 				}
 			},
 			animation: {
@@ -103,6 +108,7 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'float': 'float 6s ease-in-out infinite',
 				'pulse-soft': 'pulse-soft 4s ease-in-out infinite',
+				'bounce-once': 'bounce-once 1s ease-in-out',
 			}
 		}
 	},

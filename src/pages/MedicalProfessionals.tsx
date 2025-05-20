@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from '@/components/ui/button';
@@ -10,6 +10,29 @@ import { toast } from 'sonner';
 
 const MedicalProfessionals = () => {
   const [email, setEmail] = useState('');
+  const animatedElementsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Animation on scroll effect
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-bounce-once');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    animatedElementsRef.current.forEach(el => {
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      animatedElementsRef.current.forEach(el => {
+        if (el) observer.unobserve(el);
+      });
+    };
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,6 +92,11 @@ const MedicalProfessionals = () => {
       icon: <Shield className="h-8 w-8 text-pavlok-purple" />,
       title: "Snooze-lock",
       description: "No more turning off your alarm in your sleep. Require specific actions to disable."
+    },
+    {
+      icon: <Clock className="h-8 w-8 text-pavlok-blue" />,
+      title: "Experience the Perfect Nap",
+      description: "Use the Perfect Nap feature to take nap that triggers an alarm 20-60 minutes only after you actually fall asleep"
     }
   ];
 
@@ -133,10 +161,10 @@ const MedicalProfessionals = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div className="text-left">
               <h1 className="mb-6 text-4xl md:text-6xl font-extrabold text-white">
-                Wake Up On Time. <span className="text-gradient">Every Time.</span> Even On Call.
+                Doctors, Nurses, and First Responders: <span className="text-gradient">Wake Up On Time. Every Time.</span>
               </h1>
               <p className="mb-8 text-xl md:text-2xl text-gray-200">
-                Designed for doctors, nurses, and first responders — Shock Clock Max uses vibration, sound, and a zap to make sure you never sleep through a shift or an emergency call.
+                Shock Clock uses vibration, sound, and (if necessary) electric zap to make sure you never sleep through a shift or an emergency call.
               </p>
               
               <div className="max-w-md">
@@ -184,7 +212,38 @@ const MedicalProfessionals = () => {
         </div>
       </section>
 
-      {/* Device And App Section - Similar to original page */}
+      {/* Pain Points Section - MOVED UP as requested */}
+      <section id="pain-points" className="bg-gradient-to-b from-pavlok-dark/90 to-pavlok-dark text-white py-20">
+        <div className="section-container">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Irregular Shifts Don't Have to <span className="text-gradient">Ruin Your Sleep</span></h2>
+            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
+              Medical professionals face unique sleep challenges that regular alarm clocks simply can't address.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {painPoints.map((point, index) => (
+              <Card key={index} className="dream-card border-none">
+                <CardContent className="p-8 text-center">
+                  <div 
+                    className="rounded-full bg-pavlok-dark/50 w-16 h-16 flex items-center justify-center mx-auto mb-6"
+                    ref={el => animatedElementsRef.current[index] = el}
+                  >
+                    {point.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3 text-gradient">{point.title}</h3>
+                  <p className="text-gray-300">
+                    {point.description}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Device And App Section - MOVED DOWN as requested */}
       <section id="device-and-app" className="bg-gradient-to-b from-pavlok-dark to-pavlok-dark/90 text-white py-20">
         <div className="section-container">
           <div className="text-center mb-12">
@@ -203,13 +262,15 @@ const MedicalProfessionals = () => {
                 {/* Glow effect behind device */}
                 <div className="absolute -inset-10 bg-gradient-to-r from-pavlok-purple/20 to-pavlok-blue/20 rounded-full blur-3xl"></div>
                 
-                {/* Device image */}
+                {/* Device image - made square and transparent background */}
                 <div className="relative flex justify-center">
-                  <img 
-                    src="/lovable-uploads/a0c9db2a-b7c8-4969-b618-27d99ebb22f5.png" 
-                    alt="Shock Clock Device" 
-                    className="max-w-[300px] relative z-10 transform hover:scale-105 transition-transform duration-500"
-                  />
+                  <div className="w-[300px] h-[300px] flex items-center justify-center overflow-hidden">
+                    <img 
+                      src="/lovable-uploads/a0c9db2a-b7c8-4969-b618-27d99ebb22f5.png" 
+                      alt="Shock Clock Device" 
+                      className="object-contain w-full h-full relative z-10 transform hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
                 </div>
               </div>
               
@@ -221,7 +282,7 @@ const MedicalProfessionals = () => {
                         <Zap className="h-5 w-5 text-pavlok-purple" />
                       </div>
                       <div>
-                        <h4 className="font-semibold">Zap Wake-up</h4>
+                        <h4 className="font-semibold text-pavlok-purple">Zap Wake-up</h4>
                         <p className="text-sm text-gray-300">Guaranteed to wake you up</p>
                       </div>
                     </div>
@@ -235,7 +296,7 @@ const MedicalProfessionals = () => {
                         <Bell className="h-5 w-5 text-pavlok-blue" />
                       </div>
                       <div>
-                        <h4 className="font-semibold">Silent Alerts</h4>
+                        <h4 className="font-semibold text-pavlok-blue">Silent Alerts</h4>
                         <p className="text-sm text-gray-300">Won't disturb others</p>
                       </div>
                     </div>
@@ -251,13 +312,15 @@ const MedicalProfessionals = () => {
                 {/* Glow effect behind app */}
                 <div className="absolute -inset-10 bg-gradient-to-r from-pavlok-blue/20 to-pavlok-purple/20 rounded-full blur-3xl"></div>
                 
-                {/* App image */}
+                {/* App image - made square and transparent background */}
                 <div className="relative flex justify-center">
-                  <img 
-                    src="/lovable-uploads/1e1feb58-10ce-4aff-97cd-f8f8c9994dc6.png" 
-                    alt="Shock Clock Companion App" 
-                    className="max-w-[250px] relative z-10 transform hover:scale-105 transition-transform duration-500"
-                  />
+                  <div className="w-[300px] h-[300px] flex items-center justify-center overflow-hidden">
+                    <img 
+                      src="/lovable-uploads/1e1feb58-10ce-4aff-97cd-f8f8c9994dc6.png" 
+                      alt="Shock Clock Companion App" 
+                      className="object-contain w-full h-full relative z-10 transform hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
                 </div>
               </div>
               
@@ -269,7 +332,7 @@ const MedicalProfessionals = () => {
                         <Smartphone className="h-5 w-5 text-pavlok-purple" />
                       </div>
                       <div>
-                        <h4 className="font-semibold">Zap on Call</h4>
+                        <h4 className="font-semibold text-pavlok-purple">Zap on Call</h4>
                         <p className="text-sm text-gray-300">Wake up when important calls come</p>
                       </div>
                     </div>
@@ -283,7 +346,7 @@ const MedicalProfessionals = () => {
                         <Clock className="h-5 w-5 text-pavlok-blue" />
                       </div>
                       <div>
-                        <h4 className="font-semibold">Multiple Alarms</h4>
+                        <h4 className="font-semibold text-pavlok-blue">Multiple Alarms</h4>
                         <p className="text-sm text-gray-300">For different shifts</p>
                       </div>
                     </div>
@@ -295,40 +358,12 @@ const MedicalProfessionals = () => {
           
           <div className="mt-16 text-center">
             <div className="dream-card p-8 max-w-3xl mx-auto">
-              <h3 className="text-xl font-semibold mb-4">Medical Professional Ready</h3>
+              <h3 className="text-xl font-semibold mb-4 text-pavlok-purple">Medical Professional Ready</h3>
               <p className="text-gray-300">
                 The Shock Clock device and app work in perfect harmony to help you never miss critical calls or shifts again.
                 Set emergency contacts in the app, wear your device to bed, and sleep worry-free knowing you'll always wake up when needed.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Pain Points Section */}
-      <section id="pain-points" className="bg-gradient-to-b from-pavlok-dark/90 to-pavlok-dark text-white py-20">
-        <div className="section-container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Irregular Shifts Don't Have to <span className="text-gradient">Ruin Your Sleep</span></h2>
-            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
-              Medical professionals face unique sleep challenges that regular alarm clocks simply can't address.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {painPoints.map((point, index) => (
-              <Card key={index} className="dream-card border-none">
-                <CardContent className="p-8 text-center">
-                  <div className="rounded-full bg-pavlok-dark/50 w-16 h-16 flex items-center justify-center mx-auto mb-6">
-                    {point.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold mb-3">{point.title}</h3>
-                  <p className="text-gray-300">
-                    {point.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
           </div>
         </div>
       </section>
@@ -350,11 +385,14 @@ const MedicalProfessionals = () => {
                 {features.map((feature, index) => (
                   <Card key={index} className="dream-card border-none">
                     <CardContent className="p-6 flex items-start gap-6">
-                      <div className="flex-shrink-0 rounded-full bg-pavlok-dark/50 w-16 h-16 flex items-center justify-center">
+                      <div 
+                        className="flex-shrink-0 rounded-full bg-pavlok-dark/50 w-16 h-16 flex items-center justify-center"
+                        ref={el => animatedElementsRef.current[index + 3] = el}
+                      >
                         {feature.icon}
                       </div>
                       <div>
-                        <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
+                        <h3 className="text-xl font-semibold mb-3 text-gradient">{feature.title}</h3>
                         <p className="text-gray-300">
                           {feature.description}
                         </p>
@@ -391,7 +429,7 @@ const MedicalProfessionals = () => {
         </div>
       </section>
 
-      {/* How It Works Section */}
+      {/* How It Works Section - Fixed timeline layout */}
       <section id="how-it-works" className="bg-gradient-to-b from-pavlok-dark/90 to-pavlok-dark text-white py-20">
         <div className="section-container">
           <div className="text-center mb-16">
@@ -403,36 +441,37 @@ const MedicalProfessionals = () => {
           
           <div className="relative">
             {/* Vertical line connecting steps */}
-            <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-pavlok-purple to-pavlok-blue opacity-30"></div>
+            <div className="absolute left-[20px] md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-pavlok-purple to-pavlok-blue opacity-30"></div>
             
             <div className="space-y-16">
               {steps.map((step, index) => (
                 <div key={index} className="relative">
-                  {/* Step circle */}
-                  <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 -top-3 z-10">
-                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-r from-pavlok-purple to-pavlok-blue flex items-center justify-center shadow-lg">
-                      <span className="text-white text-xs md:text-sm font-bold">{step.number}</span>
+                  {/* Step circle - centered on mobile, alternating on desktop */}
+                  <div className={`absolute left-[20px] md:left-1/2 transform md:-translate-x-1/2 -top-3 z-10`}>
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-pavlok-purple to-pavlok-blue flex items-center justify-center shadow-lg">
+                      <span className="text-white text-sm font-bold">{step.number}</span>
                     </div>
                   </div>
                   
-                  <div className={`pl-12 md:pl-0 grid md:grid-cols-5 gap-6 ${
+                  {/* Content - now with proper spacing and alignment */}
+                  <div className={`grid grid-cols-1 md:grid-cols-9 gap-4 ${
                     index % 2 === 0 ? 'md:text-right' : 'md:text-left'
                   }`}>
                     {/* Step title column */}
-                    <div className={`md:col-span-2 ${
-                      index % 2 === 0 ? 'md:order-1' : 'md:order-4'
+                    <div className={`pl-16 md:pl-0 md:col-span-4 ${
+                      index % 2 === 0 ? 'md:order-1' : 'md:order-5'
                     }`}>
-                      <h3 className="text-xl font-semibold mb-3">{step.title}</h3>
+                      <h3 className="text-xl font-semibold mb-3 text-pavlok-purple">{step.title}</h3>
+                      <p className="text-gray-300">{step.description}</p>
                     </div>
                     
                     {/* Center spacer */}
                     <div className="hidden md:block md:col-span-1"></div>
                     
-                    {/* Description column */}
-                    <div className={`md:col-span-2 ${
-                      index % 2 === 0 ? 'md:order-3' : 'md:order-2'
+                    {/* Description column - now empty as we combined the content */}
+                    <div className={`hidden md:block md:col-span-4 ${
+                      index % 2 === 0 ? 'md:order-3' : 'md:order-1'
                     }`}>
-                      <p className="text-gray-300">{step.description}</p>
                     </div>
                   </div>
                 </div>
@@ -470,32 +509,46 @@ const MedicalProfessionals = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* CTA Section - Added price and device image */}
       <section id="cta" className="bg-gradient-to-b from-pavlok-dark/90 to-pavlok-dark text-white py-20">
         <div className="section-container">
-          <div className="dream-card p-8 md:p-12 max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Never Miss an <span className="text-gradient">On-Call Shift Again</span></h2>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              Join thousands of medical professionals who trust Shock Clock Max to wake them up—no matter what.
-            </p>
-            
-            <div className="flex flex-col md:flex-row justify-center gap-6 mb-8">
-              <Button 
-                className="bg-pavlok-purple hover:bg-pavlok-purple/80 text-white px-8 py-6 text-lg"
-                onClick={() => toast.success("Thanks for your interest in Shock Clock Max!")}
-              >
-                Buy Now — Wake Up Smarter →
-              </Button>
+          <div className="dream-card p-8 md:p-12 max-w-4xl mx-auto">
+            <div className="flex flex-col lg:flex-row gap-8 items-center">
+              <div className="lg:w-1/2 text-center lg:text-left">
+                <h2 className="text-3xl md:text-4xl font-bold mb-6">Never Miss an <span className="text-gradient">On-Call Shift Again</span></h2>
+                <p className="text-xl text-gray-300 mb-8">
+                  Join thousands of medical professionals who trust Shock Clock Max to wake them up—no matter what.
+                </p>
+                
+                <div className="mb-8">
+                  <div className="text-3xl font-bold text-white mb-2">$129</div>
+                  <p className="text-gray-400">One-time purchase. Free shipping & 60-day guarantee.</p>
+                </div>
+                
+                <Button 
+                  className="bg-pavlok-purple hover:bg-pavlok-purple/80 text-white px-8 py-6 text-lg"
+                  onClick={() => toast.success("Thanks for your interest in Shock Clock Max!")}
+                >
+                  Buy Now — Wake Up Smarter →
+                </Button>
+              </div>
+              
+              <div className="lg:w-1/2">
+                <div className="relative">
+                  <div className="absolute -inset-10 bg-gradient-to-r from-pavlok-purple/20 to-pavlok-blue/20 rounded-full blur-3xl"></div>
+                  <img 
+                    src="/lovable-uploads/a0c9db2a-b7c8-4969-b618-27d99ebb22f5.png" 
+                    alt="Shock Clock Device" 
+                    className="relative z-10 max-w-[250px] mx-auto"
+                  />
+                </div>
+              </div>
             </div>
-            
-            <p className="text-gray-400">
-              60-Day Money Back Guarantee | Free U.S. Shipping
-            </p>
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
+      {/* FAQ Section - Made headers colored */}
       <section id="faq" className="bg-gradient-to-b from-pavlok-dark to-pavlok-dark/90 text-white py-20">
         <div className="section-container">
           <div className="text-center mb-16">
@@ -509,7 +562,7 @@ const MedicalProfessionals = () => {
             {faqItems.map((item, index) => (
               <Card key={index} className="dream-card border-none">
                 <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-3">{item.question}</h3>
+                  <h3 className="text-xl font-semibold mb-3 text-gradient">{item.question}</h3>
                   <p className="text-gray-300">{item.answer}</p>
                 </CardContent>
               </Card>
@@ -522,5 +575,29 @@ const MedicalProfessionals = () => {
     </div>
   );
 };
+
+// CSS for bounce animation
+const bounceKeyframes = `
+@keyframes bounce-once {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce-once {
+  animation: bounce-once 1s ease-in-out;
+}
+`;
+
+// Add style tag to the document
+const style = document.createElement('style');
+style.innerHTML = bounceKeyframes;
+document.head.appendChild(style);
 
 export default MedicalProfessionals;
